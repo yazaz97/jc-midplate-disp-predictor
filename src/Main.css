@@ -1,0 +1,49 @@
+.parent {
+    background: url(al.jpeg);
+    background-size: cover; /* Ensures the background covers the entire area */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.main-container {
+    background: #fff;
+    width: 830px;
+    padding: 30px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.9);
+}
+
+.first-row {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.input-box {
+    width: 100%;
+}
+
+.main-container h1 {
+    font-size: 25px;
+    font-weight: 800;
+    text-align: center;
+}
+
+/* .btn {
+    margin: 0 auto;
+} */
+
+.btn-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
