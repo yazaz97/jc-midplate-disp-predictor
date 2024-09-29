@@ -1,18 +1,18 @@
-import React, { useState } from "react";
 import { Menu, MenuButton, MenuList, MenuItem, Button } from "@chakra-ui/react";
 
-function Dropdown() {
-  const [selectedThickness, setSelectedThickness] = useState(null);
-
+function Dropdown({ thickness, setThickness, isInvalid, setIsInvalid }) {
   const handleMenuItemClick = (value) => {
-    setSelectedThickness(value);
+    let newCorrectedValues = { ...isInvalid };
+    setThickness(value);
+    newCorrectedValues["thickness"] = false;
+    setIsInvalid(newCorrectedValues);
   };
 
   return (
     <div>
       <Menu>
-        <MenuButton as={Button}>
-          {selectedThickness ? `${selectedThickness} (mm)` : "Select Thickness"}
+        <MenuButton as={Button} color={isInvalid.thickness ? "red.500" : ""}>
+          {thickness ? `${thickness} (mm)` : "Select Thickness"}
         </MenuButton>
         <MenuList>
           <MenuItem onClick={() => handleMenuItemClick(6)}>6</MenuItem>

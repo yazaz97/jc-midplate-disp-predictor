@@ -43,7 +43,25 @@
 
 .btn-row {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+}
+
+.right-btns {
+    display: flex;
     gap: 10px;
 }
 
+.gif-image {
+    width: 400px;  /* Set desired width */
+    height: auto;  /* Maintain aspect ratio */
+  }
+
+.gif-container {
+    display: flex;
+    justify-content: center;
+}
+
+.pt-10 {
+    margin-top: 10px;
+}
