@@ -22,6 +22,9 @@ import { useState } from "react";
 import Dropdown from "./Dropdown";
 import ModalComp from "./ModalComp";
 import ScrollModal from "./ScrollModal";
+import axios from "axios"
+import { calcLength } from "framer-motion";
+
 
 // Register the components (this is essential for Chart.js v3+)
 ChartJS.register(
@@ -46,15 +49,16 @@ function Main() {
     onOpen: onThirdOpen,
     onClose: onThirdClose,
   } = useDisclosure();
+  const [sliderValue, setSliderValue] = useState(273);
   const [thickness, setThickness] = useState(null);
-  const [density, setDensity] = useState("");
-  const [A, setA] = useState("");
-  const [B, setB] = useState("");
-  const [c, setC] = useState("");
-  const [n, setN] = useState("");
-  const [m, setM] = useState("");
-  const [mass, setMass] = useState("");
-  const [velocity, setVelocity] = useState("");
+  const [density, setDensity] = useState(null);
+  const [A, setA] = useState(null);
+  const [B, setB] = useState(null);
+  const [c, setC] = useState(null);
+  const [n, setN] = useState(null);
+  const [m, setM] = useState(null);
+  const [mass, setMass] = useState(null);
+  const [velocity, setVelocity] = useState(null);
   const [isInvalid, setIsInvalid] = useState({
     thickness: false,
     mass: false,
@@ -66,8 +70,46 @@ function Main() {
     m: false,
     density: false,
   });
+  const [grData, setGrData] = useState([])
+  const [spinner, setSpinner] = useState(false)
 
-  const handleSubmit = () => {
+  // const testRequest = async() => {
+  //   const A_json = parseFloat(A)
+  //   const B_json = parseFloat(B)
+  //   const n_json = parseFloat(n)
+  //   const c_json = parseFloat(c)
+  //   const m_json = parseFloat(m)
+  //   const velocity_json = parseFloat(velocity)
+  //   const density_json = parseFloat(density)
+  //   const mass_json = parseFloat(mass)
+  //   const length_json = parseFloat(sliderValue)
+  //   const thickness_json = parseFloat(thickness)
+  //   const requestBody = {
+  //     "A": A_json,
+  //     "B": B_json,
+  //     "n": n_json,
+  //     "C": c_json,
+  //     "m": m_json,
+  //     "velocity": velocity_json,
+  //     "density": density_json,
+  //     "impactor_mass": mass_json,
+  //     "length": length_json,
+  //     "width": length_json,
+  //     "thickness": thickness_json
+  //   }
+
+  //   const response = await axios.post("http://localhost:5000/",requestBody,    {
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  //   setGrData(response.data)
+  // }
+
+  const handleSubmit = async() => {
+    
+  
+
     let newInvalidFields = { ...isInvalid };
     if (thickness) {
       newInvalidFields["thickness"] = false;
@@ -87,7 +129,45 @@ function Main() {
                     newInvalidFields["c"] = false;
                     if (m >= 0.32 && m <= 2.77) {
                       newInvalidFields["m"] = false;
-                      onOpen();
+                      const A_json = parseFloat(A)
+                      const B_json = parseFloat(B)
+                      const n_json = parseFloat(n)
+                      const c_json = parseFloat(c)
+                      const m_json = parseFloat(m)
+                      const velocity_json = parseFloat(velocity) * -1
+                      const density_json = parseFloat(density)
+                      const mass_json = parseFloat(mass)
+                      const length_json = parseFloat(sliderValue)
+                      const thickness_json = parseFloat(thickness)
+                      const requestBody = {
+                        "A": A_json,
+                        "B": B_json,
+                        "n": n_json,
+                        "C": c_json,
+                        "m": m_json,
+                        "velocity": velocity_json,
+                        "density": density_json,
+                        "impactor_mass": mass_json,
+                        "length": length_json,
+                        "width": length_json,
+                        "thickness": thickness_json
+                      }
+                      setSpinner(true)
+                      try {
+
+                        onOpen();
+                        const response = await axios.post("http://localhost:5000/",requestBody,    {
+                          headers: {
+                            'Content-Type': 'application/json'
+                          }
+                        })
+                        await setGrData(response.data)
+                        setSpinner(false)
+                      } catch(error) {
+                        console.log("There is an Error")
+                        setSpinner(true)
+                      }
+
                     } else {
                       newInvalidFields["m"] = true;
                       toast.error("Please enter a value between 0.32 and 2.77");
@@ -229,15 +309,15 @@ function Main() {
         <div className="first-row">
           <div className="input-box">
             <h3>Length (mm)</h3>
-            <SliderComponent title="length" />
+            <SliderComponent sliderValue={sliderValue} setSliderValue={setSliderValue} />
           </div>
         </div>
-        <div className="first-row">
+        {/* <div className="first-row">
           <div className="input-box">
             <h3>Width (mm)</h3>
             <SliderComponent title="width" />
           </div>
-        </div>
+        </div> */}
         <div className="first-row">
           <div className="input-box">
             <h3>Thickness</h3>
@@ -256,6 +336,7 @@ function Main() {
               onChange={(e) => handleMass(e)}
               isInvalid={isInvalid.mass}
               errorBorderColor="red.500"
+              type="number"
             />
           </div>
           <div className="input-box">
@@ -364,11 +445,12 @@ function Main() {
               <ModalComp
                 isOpen={isOpen}
                 onClose={onClose}
-                graphData={mldata}
+                graphData={grData}
                 lable="Displacement"
                 graphTitle="Mid Plate Node Displacement for Selected Material"
                 xAxis="Time (ms)"
                 yAxis="Displacement (mm)"
+                spinner={spinner}
               />
             </div>
           </div>

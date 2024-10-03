@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Line } from "react-chartjs-2";
 import { Button } from "@chakra-ui/react";
+import { Spinner } from '@chakra-ui/react'
 
 function ModalComp({
   isOpen,
@@ -18,15 +19,28 @@ function ModalComp({
   graphTitle,
   xAxis,
   yAxis,
+  spinner
 }) {
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent width="70vw" maxWidth="70vw">
+        <ModalContent width="60vw" maxWidth="60vw">
           <ModalHeader textAlign="center">{graphTitle}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            {spinner ? (
+              <div className="spinner-box">
+                <div className="spinner-box-container">
+                  <div className="spinner-only">
+                    <Spinner size="xl" thickness='6px' emptyColor='gray.200'/>
+                  </div>
+                  <h1>Your graph is loading...!</h1>
+                </div>
+
+              </div>
+            ) : (
+
             <div>
               <Line
                 data={{
@@ -73,6 +87,7 @@ function ModalComp({
                 }}
               />
             </div>
+            )}
           </ModalBody>
 
           <ModalFooter>

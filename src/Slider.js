@@ -8,14 +8,12 @@ import {
 import { Tooltip } from "@chakra-ui/react";
 import { useState } from "react";
 
-function SliderComponent({ title }) {
-  const initialSliderValue = title === "length" ? 273 : 200;
-  const [sliderValue, setSliderValue] = useState(initialSliderValue);
+function SliderComponent({ sliderValue, setSliderValue }) {
   const [showTooltip, setShowTooltip] = useState(false);
   return (
     <Slider
       id="slider"
-      defaultValue={initialSliderValue}
+      defaultValue={273}
       min={150}
       max={450}
       colorScheme="teal"
