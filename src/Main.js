@@ -24,7 +24,8 @@ import ModalComp from "./ModalComp";
 import ScrollModal from "./ScrollModal";
 import axios from "axios"
 import { calcLength } from "framer-motion";
-
+import PreDefinedMaterial from "./PreDefinedMaterial";
+import MaterialModal from "./MaterialModal";
 
 // Register the components (this is essential for Chart.js v3+)
 ChartJS.register(
@@ -49,7 +50,13 @@ function Main() {
     onOpen: onThirdOpen,
     onClose: onThirdClose,
   } = useDisclosure();
+  const {
+    isOpen: isFourthOpen,
+    onOpen: onFourthOpen,
+    onClose: onFourthClose,
+  } = useDisclosure();
   const [sliderValue, setSliderValue] = useState(273);
+  const [preMaterial, setPreMaterial] = useState(null);
   const [thickness, setThickness] = useState(null);
   const [density, setDensity] = useState(null);
   const [A, setA] = useState(null);
@@ -70,8 +77,8 @@ function Main() {
     m: false,
     density: false,
   });
-  const [grData, setGrData] = useState([])
-  const [spinner, setSpinner] = useState(false)
+  const [grData, setGrData] = useState([]);
+  const [spinner, setSpinner] = useState(false);
 
   // const testRequest = async() => {
   //   const A_json = parseFloat(A)
@@ -106,10 +113,7 @@ function Main() {
   //   setGrData(response.data)
   // }
 
-  const handleSubmit = async() => {
-    
-  
-
+  const handleSubmit = async () => {
     let newInvalidFields = { ...isInvalid };
     if (thickness) {
       newInvalidFields["thickness"] = false;
@@ -129,45 +133,47 @@ function Main() {
                     newInvalidFields["c"] = false;
                     if (m >= 0.32 && m <= 2.77) {
                       newInvalidFields["m"] = false;
-                      const A_json = parseFloat(A)
-                      const B_json = parseFloat(B)
-                      const n_json = parseFloat(n)
-                      const c_json = parseFloat(c)
-                      const m_json = parseFloat(m)
-                      const velocity_json = parseFloat(velocity) * -1
-                      const density_json = parseFloat(density)
-                      const mass_json = parseFloat(mass)
-                      const length_json = parseFloat(sliderValue)
-                      const thickness_json = parseFloat(thickness)
+                      const A_json = parseFloat(A);
+                      const B_json = parseFloat(B);
+                      const n_json = parseFloat(n);
+                      const c_json = parseFloat(c);
+                      const m_json = parseFloat(m);
+                      const velocity_json = parseFloat(velocity) * -1;
+                      const density_json = parseFloat(density);
+                      const mass_json = parseFloat(mass);
+                      const length_json = parseFloat(sliderValue);
+                      const thickness_json = parseFloat(thickness);
                       const requestBody = {
-                        "A": A_json,
-                        "B": B_json,
-                        "n": n_json,
-                        "C": c_json,
-                        "m": m_json,
-                        "velocity": velocity_json,
-                        "density": density_json,
-                        "impactor_mass": mass_json,
-                        "length": length_json,
-                        "width": length_json,
-                        "thickness": thickness_json
-                      }
-                      setSpinner(true)
+                        A: A_json,
+                        B: B_json,
+                        n: n_json,
+                        C: c_json,
+                        m: m_json,
+                        velocity: velocity_json,
+                        density: density_json,
+                        impactor_mass: mass_json,
+                        length: length_json,
+                        width: length_json,
+                        thickness: thickness_json,
+                      };
+                      setSpinner(true);
                       try {
-
                         onOpen();
-                        const response = await axios.post("http://localhost:5000/",requestBody,    {
-                          headers: {
-                            'Content-Type': 'application/json'
-                          }
-                        })
-                        await setGrData(response.data)
-                        setSpinner(false)
-                      } catch(error) {
-                        console.log("There is an Error")
-                        setSpinner(true)
+                        const response = await axios.post(
+                          "http://localhost:5000/",
+                          requestBody,
+                          {
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                          },
+                        );
+                        await setGrData(response.data);
+                        setSpinner(false);
+                      } catch (error) {
+                        console.log("There is an Error");
+                        setSpinner(true);
                       }
-
                     } else {
                       newInvalidFields["m"] = true;
                       toast.error("Please enter a value between 0.32 and 2.77");
@@ -268,6 +274,10 @@ function Main() {
     setIsInvalid(newInvalidFields);
   };
 
+  const handleMaterials = () => {
+    onFourthOpen();
+  };
+
   const handleAbout = (e) => {
     onThirdOpen();
   };
@@ -309,15 +319,12 @@ function Main() {
         <div className="first-row">
           <div className="input-box">
             <h3>Length (mm)</h3>
-            <SliderComponent sliderValue={sliderValue} setSliderValue={setSliderValue} />
+            <SliderComponent
+              sliderValue={sliderValue}
+              setSliderValue={setSliderValue}
+            />
           </div>
         </div>
-        {/* <div className="first-row">
-          <div className="input-box">
-            <h3>Width (mm)</h3>
-            <SliderComponent title="width" />
-          </div>
-        </div> */}
         <div className="first-row">
           <div className="input-box">
             <h3>Thickness</h3>
@@ -349,6 +356,33 @@ function Main() {
               errorBorderColor="red.500"
             />
           </div>
+        </div>
+        <div>
+          <h3 className="sub-titles">Select Predifined Material</h3>
+        </div>
+        <div className="first-row-center-align">
+          <div className="first-row-center">
+            <PreDefinedMaterial
+              preMaterial={preMaterial}
+              setPreMaterial={setPreMaterial}
+              setA={setA}
+              setB={setB}
+              setN={setN}
+              setM={setM}
+              setC={setC}
+              setDensity={setDensity}
+            />
+            <Button colorScheme="blue" onClick={handleMaterials}>
+              Learn more about Materials
+            </Button>
+            <MaterialModal isOpen={isFourthOpen} onClose={onFourthClose} />
+          </div>
+        </div>
+        <div>
+          <h3 className="sub-titles-center">OR</h3>
+        </div>
+        <div>
+          <h3 className="sub-titles">Enter your material parameters</h3>
         </div>
         <div className="first-row">
           <div className="input-box">
