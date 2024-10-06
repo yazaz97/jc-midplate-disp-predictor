@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/jc-midplate-disp-predictor/static/css/main.d6348797.css",
-    "main.js": "/jc-midplate-disp-predictor/static/js/main.ea8733b5.js",
+    "main.css": "/jc-midplate-disp-predictor/static/css/main.ea5fc050.css",
+    "main.js": "/jc-midplate-disp-predictor/static/js/main.fde07bd6.js",
     "static/media/al.jpeg": "/jc-midplate-disp-predictor/static/media/al.2984dd48f261dfef3e8b.jpeg",
     "static/media/KaTeX_AMS-Regular.ttf": "/jc-midplate-disp-predictor/static/media/KaTeX_AMS-Regular.853be92419a6c3766b9a.ttf",
     "static/media/KaTeX_Main-Regular.ttf": "/jc-midplate-disp-predictor/static/media/KaTeX_Main-Regular.9eba1d77abcf2aa6e94e.ttf",
@@ -64,11 +64,11 @@
     "static/media/KaTeX_Size3-Regular.woff": "/jc-midplate-disp-predictor/static/media/KaTeX_Size3-Regular.7947224e8a9914fa332b.woff",
     "static/media/KaTeX_Size3-Regular.woff2": "/jc-midplate-disp-predictor/static/media/KaTeX_Size3-Regular.e1951519f6f0596f7356.woff2",
     "index.html": "/jc-midplate-disp-predictor/index.html",
-    "main.d6348797.css.map": "/jc-midplate-disp-predictor/static/css/main.d6348797.css.map",
-    "main.ea8733b5.js.map": "/jc-midplate-disp-predictor/static/js/main.ea8733b5.js.map"
+    "main.ea5fc050.css.map": "/jc-midplate-disp-predictor/static/css/main.ea5fc050.css.map",
+    "main.fde07bd6.js.map": "/jc-midplate-disp-predictor/static/js/main.fde07bd6.js.map"
   },
   "entrypoints": [
-    "static/css/main.d6348797.css",
-    "static/js/main.ea8733b5.js"
+    "static/css/main.ea5fc050.css",
+    "static/js/main.fde07bd6.js"
   ]
 }
