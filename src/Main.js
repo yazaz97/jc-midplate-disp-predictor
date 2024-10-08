@@ -26,6 +26,8 @@ import axios from "axios"
 import { calcLength } from "framer-motion";
 import PreDefinedMaterial from "./PreDefinedMaterial";
 import MaterialModal from "./MaterialModal";
+import ParticlesComponent from "./ReactParticles";
+
 
 // Register the components (this is essential for Chart.js v3+)
 ChartJS.register(
@@ -160,7 +162,7 @@ function Main() {
                       try {
                         onOpen();
                         const response = await axios.post(
-                          "http://localhost:5000/",
+                          "http://127.0.0.1:5000/",
                           requestBody,
                           {
                             headers: {
@@ -314,6 +316,8 @@ function Main() {
 
   return (
     <div className="parent">
+      <ParticlesComponent/>
+
       <div className="main-container">
         <h1>Sheet Metal Mid Plate Displacement Predictor</h1>
         <div className="first-row">
